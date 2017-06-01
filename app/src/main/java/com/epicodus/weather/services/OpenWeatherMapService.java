@@ -6,6 +6,7 @@ import com.epicodus.weather.models.Weather;
 import java.util.ArrayList;
 import java.io.IOException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,16 +43,20 @@ public class OpenWeatherMapService {
             if(response.isSuccessful()) {
                 String jsonData = response.body().string();
                 JSONObject openWeatherMapJSON = new JSONObject(jsonData);
+                JSONArray forecast = openWeatherMapJSON.getJSONArray("list");
 
-                String name = openWeatherMapJSON.getString("name");
-                String mainDescription = openWeatherMapJSON.getJSONArray("weather").getJSONObject(0).getString("main");
-                String detailDescription = openWeatherMapJSON.getJSONArray("weather").getJSONObject(0).getString("description");
-                double temperature = openWeatherMapJSON.getJSONObject("main").getDouble("temp");
-                double longitude = openWeatherMapJSON.getJSONObject("coord").getDouble("lon");
-                double latitude = openWeatherMapJSON.getJSONObject("coord").getDouble("lat");
+                for(int i = 0; i < forecast.length(); i++) {
+                    String city = openWeatherMapJSON.getJSONObject("city").getString("name");
+                    String country = openWeatherMapJSON.getJSONObject("city").getString("country");
+                    double longitude = openWeatherMapJSON.getJSONObject("city").getJSONObject("coord").getDouble("lon");
+                    double latitude = openWeatherMapJSON.getJSONObject("city").getJSONObject("coord").getDouble("lat");
+                    String time = forecast.getJSONObject(i).getString("dt_txt");
+                    String description = forecast.getJSONObject(i).getJSONArray("weather").getJSONObject(0).getString("main");
+                    double temperature = forecast.getJSONObject(i).getJSONObject("main").getDouble("temp");
 
-                Weather weather = new Weather(name, mainDescription, detailDescription, temperature, longitude, latitude);
-                weatherList.add(weather);
+                    Weather weather = new Weather(city, country, time, description, temperature, longitude, latitude);
+                    weatherList.add(weather);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

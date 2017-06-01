@@ -2,37 +2,44 @@ package com.epicodus.weather.models;
 
 public class Weather {
 
-    String name; //name
-    String mainDescription; //main
-    String detailDescription; //description
+    String city; //name
+    String country; //country
+    String time; //dt_text
+    String description; //main
     double temperature; //temp
     double longitude; //lon
     double latitude; //lat
 
-    public Weather(String name,
-                   String mainDescription,
-                   String detailDescription,
+    public Weather(String city,
+                   String country,
+                   String time,
+                   String description,
                    double temperature,
                    double longitude,
                    double latitude) {
-        this.name = name;
-        this.mainDescription = mainDescription;
-        this.detailDescription = detailDescription;
+        this.city = city;
+        this.country = country;
+        this.time = time;
+        this.description = description;
         this.temperature = temperature;
         this.longitude = longitude;
         this.latitude = latitude;
     }
 
-    public String getName() {
-        return this.name;
+    public String getCity() {
+        return this.city;
     }
 
-    public String getMainDescription() {
-        return this.mainDescription;
+    public String getCountry() {
+        return this.country;
     }
 
-    public String getDetailDescription() {
-        return this.detailDescription;
+    public String getTime() {
+        return this.time;
+    }
+
+    public String getDescription() {
+        return this.description;
     }
 
     public double getTemperature() {

@@ -3,7 +3,6 @@ package com.epicodus.weather.ui;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.epicodus.weather.R;
 import com.epicodus.weather.models.Weather;

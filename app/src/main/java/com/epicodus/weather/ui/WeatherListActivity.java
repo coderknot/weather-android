@@ -1,10 +1,13 @@
 package com.epicodus.weather.ui;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 import com.epicodus.weather.R;
+import com.epicodus.weather.adapters.WeatherListAdapter;
 import com.epicodus.weather.models.Weather;
 import com.epicodus.weather.services.OpenWeatherMapService;
 
@@ -19,6 +22,9 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class WeatherListActivity extends AppCompatActivity {
+    @Bind(R.id.weatherRecyclerView) RecyclerView weatherRecyclerView;
+    private WeatherListAdapter adapter;
+
     public ArrayList<Weather> weatherList = new ArrayList<>();
 
     @Override
@@ -45,6 +51,17 @@ public class WeatherListActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) {
                 weatherList = openWeatherMapService.processResults(response);
+
+                WeatherListActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter = new WeatherListAdapter(getApplicationContext(), weatherList);
+                        weatherRecyclerView.setAdapter(adapter);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(WeatherListActivity.this);
+                        weatherRecyclerView.setLayoutManager(layoutManager);
+                        weatherRecyclerView.setHasFixedSize(true);
+                    }
+                });
             }
         });
     }

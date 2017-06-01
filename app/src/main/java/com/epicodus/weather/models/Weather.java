@@ -46,6 +46,10 @@ public class Weather {
         return this.temperature;
     }
 
+    public String getTemperatureAsString() {
+        return String.valueOf(this.getTemperature());
+    }
+
     public double getLongitude() {
         return  this.longitude;
     }
